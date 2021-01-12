@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block page_css %}
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="/static/login.css" rel="stylesheet">
+{% endblock %}
+
+{% block script %}
+    function checkFields()
+    {
+        let username = document.querySelector('#username').value;
+        let password = document.querySelector('#password').value;
+        let confirmation = document.querySelector('#confirmation').value;
+        if (username === "")
+        {
+            alert("Please provide a username");
+        }
+        else if (password === "")
+        {
+            alert("Please provide a password");
+        }
+        else if (confirmation === "")
+        {
+            alert("Please confirm your password");
+        }
+        
+        if (password != confirmation)
+        {
+            alert("Passwords must match");
+            return false;
+        }
+        return true;
+    }
+{% endblock %}
+
+{% block main %}
+    <div class="wrapper fadeInDown">
+        <span class="border">
+            <div id="formBody">
+                <div id="formContent">
+                    <form action="/register" onsubmit="checkFields();" method="POST">
+                        <div class="form-group">
+                            <input autocomplete="off" autofocus class="form-control" id ="username" name="username" placeholder="Username" type="text">
+                        </div>
+                        <div class="form-group">
+                            <input autocomplete="off" autofocus class="form-control" id ="name" name="name" placeholder="Name" type="text">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id ="password" name="password" placeholder="Password" type="password">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id ="confirmation" name="confirmation" placeholder="Password (again)" type="password">
+                        </div>
+                        <button class="btn btn-primary" type="submit">Register</button>
+                </div>
+                <div id="formFooter">
+                    <p class="small text-center text-muted"><a href="/login">Login</a></p>
+
+                </div>
+            </div>
+        </span>
+    </div>
+
+{% endblock %}

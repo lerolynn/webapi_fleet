@@ -1,0 +1,121 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Maps
+{% endblock %}
+
+{% block main %}
+    <main>
+        <div style="margin-bottom: 70px;">
+          <h1 class="display-4 float-left">Map List</h1>
+            <!-- Button to add new map -->
+            <button type="button" class="btn btn-info btn-lg float-right" data-toggle="modal" data-target="#addMap" href="#">
+              Add New Map
+            </button>
+
+            <!-- Modal for adding new map-->
+            <div class="modal fade bd-example-modal-lg" id="addMap" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add New Map</h5>
+                    <button type="button" class="bootlose" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <!-- Form to add map -->
+                  <form action="/maps" method="POST" enctype="multipart/form-data">
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <label style="margin-left: 20px;" class="float-left">Map Image</label>
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" name="mapImage" id="mapImage">
+                          <label class="custom-file-label" for="mapImage">Select Map Image</label>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label style="margin-left: 20px;" class="float-left">YAML File</label>
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" name="yamlFile" id="yamlFile">
+                          <label class="custom-file-label" for="yamlFile">Select YAML File</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Add Map</button></button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <!-- Display maps available -->
+        <div style="margin-top: 100px;">
+          <div class="col center">
+              <table class="table table-hover" width="100%" ID="Table2" style="margin: 0px">
+                <thead>
+                  <!-- Map List Dispaly Header -->
+                  <tr>
+                    <th>ID</th>
+                    <th>Map Name</th>
+                    <th>Map Filename (PGM)</th>
+                    <th>Map Filename (JPG)</th>
+                    <th>YAML Filename</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <!-- Map Data -->
+                <tbody>
+                {% for map in maps %}
+                  <tr>
+                    <td>{{  map.id  }}</td>
+                    <td>{{  map.map_name  }}</td>
+                    {% if map.map_pgm == None %}
+                      <td>-</td>
+                    {% else %}
+                      <td>{{  map.map_pgm  }}</td>
+                    {% endif %}
+                    <td>{{  map.map_jpg  }}</td>
+                    <td>{{  map.yamlfile  }}</td>
+                    <td>
+                      <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" data-flip="false" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Options
+                        </button>
+                        <div class="dropdown-menu dropup" aria-labelledby="dropdownMenuButton">
+                          <!-- <a class="dropdown-item" data-toggle="modal" data-target="#updateMap" href="#">Update</a> -->
+                          <a class="dropdown-item" data-toggle="modal" data-target="#deleteMap{{  map.id  }}" href="#">Delete</a>
+                        </div>
+                      </div>
+                    </td>
+
+                    <!-- Modal for Delete-->
+                    <div class="modal fade bd-example-modal-lg" id="deleteMap{{  map.id  }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Are you sure you want to delete Map - {{ map.map_name }}?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-footer">
+                            <form action="/delete_map" method="POST">
+                              <button type="submit" class="btn btn-secondary" name="map_id" value="{{  map.id  }}">Yes</button>
+                              <button type="button" class="btn btn-primary" data-dismiss="modal">No, Don't Delete Map {{ map.map_name }}</button></button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+          </div>
+        </div>
+    </main>
+{% endblock %}
+
