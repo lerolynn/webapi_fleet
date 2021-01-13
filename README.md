@@ -48,7 +48,7 @@ Robot Manager allows the user to:
 The Robot Manager accepts tasklists in the JSON format as a file input in the following format. The user can upload new tasklists through the Upload Tasklist option on the Tasks page. 
 ```
 {
-    "tasks_name": "test_task",
+    "tasklist_name": "test_task",
 
     "map_name": "test",
     "map_file": "test.pgm",
